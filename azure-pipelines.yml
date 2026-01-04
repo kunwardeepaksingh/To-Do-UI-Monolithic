@@ -21,17 +21,17 @@ stages:
           displayName: npm install
           inputs:
             command: 'install'
-            workingDir: '$(SystemDefaultWorkingDirectory)'
+            workingDir: '$(System.DefaultWorkingDirectory)'
         - task: Npm@1
           displayName: RUN Build
           inputs:
             command: 'custom'
-            workingDir: '$(SystemDefaultWorkingDirectory)'
+            workingDir: '$(System.DefaultWorkingDirectory)'
             customCommand: 'run build'
         - task: PublishBuildArtifacts@1
           displayName: Publish Build Artifacts
           inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)/build'
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/build'
             ArtifactName: 'App Build Artifact'
             publishLocation: 'Container'
 
