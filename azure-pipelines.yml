@@ -1,0 +1,41 @@
+trigger: 
+  - main 
+
+pool : agentdada
+
+stages:
+  - stage: applicationbuild
+    displayName: Application Build
+
+    jobs:
+      - job: applicationbuild
+        displayName: Application Build 
+        steps:
+        - task: NodeTool@0
+          displayName: Node Installer
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
+            checkLatest: true
+        - task: Npm@1
+          displayName: npm install
+          inputs:
+            command: 'install'
+            workingDir: '$(SystemDefaultWorkingDirectory)'
+        - task: Npm@1
+          displayName: RUN Build
+          inputs:
+            command: 'custom'
+            workingDir: '$(SystemDefaultWorkingDirectory)'
+            customCommand: 'run build'
+        - task: PublishBuildArtifacts@1
+          displayName: Publish Build Artifacts
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)/build'
+            ArtifactName: 'App Build Artifact'
+            publishLocation: 'Container'
+
+            
+
+            
+            
